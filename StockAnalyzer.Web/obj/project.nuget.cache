@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "/JSDpYAAcrE7ePv0m9BdJ71NLKxKjGVs4X3D7ncXz8OroZ/8j27NHuFXUnOcXX6BWQCq2Bhu6evD/kxknBwNaA==",
+  "success": true,
+  "projectFilePath": "/Users/freemancodz/Developer/C#/practictioner/c-sharp-10-asynchronous-programming/02/demos/Cross-Platform/Start_Here/StockAnalyzer.Web/StockAnalyzer.Web.csproj",
+  "expectedPackageFiles": [
+    "/Users/freemancodz/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512",
+    "/Users/freemancodz/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.31/microsoft.aspnetcore.app.ref.6.0.31.nupkg.sha512",
+    "/Users/freemancodz/.nuget/packages/microsoft.netcore.app.host.osx-arm64/6.0.31/microsoft.netcore.app.host.osx-arm64.6.0.31.nupkg.sha512",
+    "/Users/freemancodz/.nuget/packages/microsoft.netcore.app.ref/6.0.31/microsoft.netcore.app.ref.6.0.31.nupkg.sha512"
+  ],
+  "logs": []
+}

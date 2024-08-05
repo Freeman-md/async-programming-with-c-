@@ -1,0 +1,12 @@
+/Users/freemancodz/Developer/C#/practictioner/c-sharp-10-asynchronous-programming/02/demos/Cross-Platform/Start_Here/StockAnalyzer.Core/bin/Debug/net6.0/StockAnalyzer.Core.deps.json
+/Users/freemancodz/Developer/C#/practictioner/c-sharp-10-asynchronous-programming/02/demos/Cross-Platform/Start_Here/StockAnalyzer.Core/bin/Debug/net6.0/StockAnalyzer.Core.dll
+/Users/freemancodz/Developer/C#/practictioner/c-sharp-10-asynchronous-programming/02/demos/Cross-Platform/Start_Here/StockAnalyzer.Core/bin/Debug/net6.0/StockAnalyzer.Core.pdb
+/Users/freemancodz/Developer/C#/practictioner/c-sharp-10-asynchronous-programming/02/demos/Cross-Platform/Start_Here/StockAnalyzer.Core/obj/Debug/net6.0/StockAnalyzer.Core.csproj.AssemblyReference.cache
+/Users/freemancodz/Developer/C#/practictioner/c-sharp-10-asynchronous-programming/02/demos/Cross-Platform/Start_Here/StockAnalyzer.Core/obj/Debug/net6.0/StockAnalyzer.Core.GeneratedMSBuildEditorConfig.editorconfig
+/Users/freemancodz/Developer/C#/practictioner/c-sharp-10-asynchronous-programming/02/demos/Cross-Platform/Start_Here/StockAnalyzer.Core/obj/Debug/net6.0/StockAnalyzer.Core.AssemblyInfoInputs.cache
+/Users/freemancodz/Developer/C#/practictioner/c-sharp-10-asynchronous-programming/02/demos/Cross-Platform/Start_Here/StockAnalyzer.Core/obj/Debug/net6.0/StockAnalyzer.Core.AssemblyInfo.cs
+/Users/freemancodz/Developer/C#/practictioner/c-sharp-10-asynchronous-programming/02/demos/Cross-Platform/Start_Here/StockAnalyzer.Core/obj/Debug/net6.0/StockAnalyzer.Core.csproj.CoreCompileInputs.cache
+/Users/freemancodz/Developer/C#/practictioner/c-sharp-10-asynchronous-programming/02/demos/Cross-Platform/Start_Here/StockAnalyzer.Core/obj/Debug/net6.0/StockAnalyzer.Core.dll
+/Users/freemancodz/Developer/C#/practictioner/c-sharp-10-asynchronous-programming/02/demos/Cross-Platform/Start_Here/StockAnalyzer.Core/obj/Debug/net6.0/refint/StockAnalyzer.Core.dll
+/Users/freemancodz/Developer/C#/practictioner/c-sharp-10-asynchronous-programming/02/demos/Cross-Platform/Start_Here/StockAnalyzer.Core/obj/Debug/net6.0/StockAnalyzer.Core.pdb
+/Users/freemancodz/Developer/C#/practictioner/c-sharp-10-asynchronous-programming/02/demos/Cross-Platform/Start_Here/StockAnalyzer.Core/obj/Debug/net6.0/ref/StockAnalyzer.Core.dll
