@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Newtonsoft.Json;
+using StockAnalyzer.Core;
 using StockAnalyzer.Core.Domain;
 using System;
 using System.Collections.Generic;
@@ -53,23 +54,29 @@ public partial class MainWindow : Window
     {
         BeforeLoadingStockData();
 
-        using (var client = new HttpClient())
-        {
-            var responseTask = client.GetAsync($"{API_URL}/{StockIdentifier.Text}");
+        var getStocksTask = GetStocks();
 
-            var response = await responseTask;
+        await getStocksTask;
 
-            var content = await response.Content.ReadAsStringAsync();
-
-            var data = JsonConvert.DeserializeObject<IEnumerable<StockPrice>>(content);
-
-            // This is the same as ItemsSource in WPF used in the course videos
-            Stocks.Items = data;
-        }
 
         AfterLoadingStockData();
     }
 
+    private async Task GetStocks()
+    {
+        try
+        {
+            var store = new DataStore();
+
+            var responseTask = store.GetStockPrices(StockIdentifier.Text);
+
+            Stocks.Items = await responseTask;
+        }
+        catch (Exception ex)
+        {
+            Notes.Text = ex.Message;
+        }
+    }
 
 
 
