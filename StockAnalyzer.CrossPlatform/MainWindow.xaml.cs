@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Newtonsoft.Json;
+using Avalonia.Threading;
 using StockAnalyzer.Core;
 using StockAnalyzer.Core.Domain;
 using System;
@@ -11,12 +11,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Threading.Tasks;
-
 namespace StockAnalyzer.CrossPlatform;
 
 public partial class MainWindow : Window
@@ -58,18 +54,24 @@ public partial class MainWindow : Window
         {
             BeforeLoadingStockData();
 
-            var lines = File.ReadAllLines("StockPrices_Small.csv");
-
-            var data = new List<StockPrice>();
-
-            foreach(var line in lines.Skip(1))
+            Task.Run(() =>
             {
-                var price = StockPrice.FromCSV(line);
+                var lines = File.ReadAllLines("StockPrices_Small.csv");
 
-                data.Add(price);
-            }
+                var data = new List<StockPrice>();
 
-            Stocks.Items = data.Where(sp => sp.Identifier == StockIdentifier.Text);
+                foreach (var line in lines.Skip(1))
+                {
+                    var price = StockPrice.FromCSV(line);
+
+                    data.Add(price);
+                }
+
+                Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    Stocks.Items = data.Where(sp => sp.Identifier == StockIdentifier.Text);
+                });
+            });
 
         } catch (Exception ex)
         {
