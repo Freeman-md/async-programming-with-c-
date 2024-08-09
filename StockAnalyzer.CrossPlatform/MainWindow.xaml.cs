@@ -9,6 +9,8 @@ using StockAnalyzer.Core.Domain;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
@@ -52,14 +54,30 @@ public partial class MainWindow : Window
 
     private async void Search_Click(object sender, RoutedEventArgs e)
     {
-        BeforeLoadingStockData();
+        try
+        {
+            BeforeLoadingStockData();
 
-        var getStocksTask = GetStocks();
+            var lines = File.ReadAllLines("StockPrices_Small.csv");
 
-        await getStocksTask;
+            var data = new List<StockPrice>();
 
+            foreach(var line in lines.Skip(1))
+            {
+                var price = StockPrice.FromCSV(line);
 
-        AfterLoadingStockData();
+                data.Add(price);
+            }
+
+            Stocks.Items = data.Where(sp => sp.Identifier == StockIdentifier.Text);
+
+        } catch (Exception ex)
+        {
+            Notes.Text = ex.Message;
+        } finally
+        {
+            AfterLoadingStockData();
+        }
     }
 
     private async Task GetStocks()
@@ -74,7 +92,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            Notes.Text = ex.Message;
+            throw;
         }
     }
 
