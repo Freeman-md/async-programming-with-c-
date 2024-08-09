@@ -54,7 +54,7 @@ public partial class MainWindow : Window
         {
             BeforeLoadingStockData();
 
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 var lines = File.ReadAllLines("StockPrices_Small.csv");
 
