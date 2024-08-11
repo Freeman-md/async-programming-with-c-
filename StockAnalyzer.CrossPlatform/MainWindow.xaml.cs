@@ -48,15 +48,21 @@ public partial class MainWindow : Window
     private static string API_URL = "https://ps-async.fekberg.com/api/stocks";
     private Stopwatch stopwatch = new Stopwatch();
 
-    private async void Search_Click(object sender, RoutedEventArgs e)
+    private void Search_Click(object sender, RoutedEventArgs e)
     {
         try
         {
             BeforeLoadingStockData();
 
-            await Task.Run(() =>
+            var loadLinesTask = Task.Run(() =>
             {
                 var lines = File.ReadAllLines("StockPrices_Small.csv");
+
+                return lines;
+            });
+
+            var processStocksTask = loadLinesTask.ContinueWith((completedTask) => {
+                var lines = completedTask.Result;
 
                 var data = new List<StockPrice>();
 
@@ -72,6 +78,15 @@ public partial class MainWindow : Window
                     Stocks.Items = data.Where(sp => sp.Identifier == StockIdentifier.Text);
                 });
             });
+
+            processStocksTask.ContinueWith(_ => {
+                Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    AfterLoadingStockData();
+                });
+            });
+                
+
 
         } catch (Exception ex)
         {
