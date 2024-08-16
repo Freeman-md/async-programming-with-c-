@@ -51,7 +51,7 @@ public partial class MainWindow : Window
 
     CancellationTokenSource? cancellationTokenSource;
 
-    private void Search_Click(object sender, RoutedEventArgs e)
+    private async void Search_Click(object sender, RoutedEventArgs e)
     {
         if (cancellationTokenSource is not null)
         {
@@ -60,10 +60,8 @@ public partial class MainWindow : Window
 
             cancellationTokenSource = null;
 
-            Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                Search.Content = "Search";
-            });
+            
+            Search.Content = "Search";
         }
 
         try
@@ -74,59 +72,18 @@ public partial class MainWindow : Window
             {
                 Notes.Text = "Cancellation requested";
             });
-
-
-            Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                Search.Content = "Cancel";
-            });
+            
+            Search.Content = "Cancel";
 
             BeforeLoadingStockData();
-            Task<List<string>> loadLinesTask = SearchForStocks(cancellationTokenSource.Token);
 
-            loadLinesTask.ContinueWith((t) =>
-            {
-                Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    Notes.Text = t?.Exception?.InnerException?.Message;
-                });
-            }, TaskContinuationOptions.OnlyOnFaulted);
+            var service = new Core.Services.StockService();
 
-            var processStocksTask = loadLinesTask.ContinueWith((completedTask) =>
-            {
-                var lines = completedTask.Result;
+            var data = await service.GetStockPricesFor(
+                StockIdentifier.Text,
+                cancellationTokenSource.Token);
 
-                var data = new List<StockPrice>();
-
-                foreach (var line in lines.Skip(1))
-                {
-                    var price = StockPrice.FromCSV(line);
-
-                    data.Add(price);
-                }
-
-                Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    Stocks.Items = data.Where(sp => sp.Identifier == StockIdentifier.Text);
-                });
-            }, TaskContinuationOptions.OnlyOnRanToCompletion);
-
-            processStocksTask.ContinueWith(_ =>
-            {
-                Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    AfterLoadingStockData();
-                });
-
-
-                cancellationTokenSource?.Dispose();
-                cancellationTokenSource = null;
-
-                Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    Search.Content = "Search";
-                });
-            });
+            Stocks.Items = data;
         }
         catch (Exception ex)
         {
@@ -134,52 +91,13 @@ public partial class MainWindow : Window
         } finally
         {
             AfterLoadingStockData();
+
+            cancellationTokenSource?.Dispose();
+            cancellationTokenSource = null;
+
+            Search.Content = "Search";
         }
     }
-
-    private static Task<List<string>> SearchForStocks(CancellationToken cancellationToken)
-    {
-        return Task.Run(async () =>
-        {
-            using var stream = new StreamReader(File.OpenRead("StockPrices_Small.csv"));
-
-            var lines = new List<string>();
-
-            while (await stream.ReadLineAsync() is string line)
-            {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    break;
-                }
-
-                lines.Add(line);
-            }
-
-            return lines;
-        }, cancellationToken);
-    }
-
-    private async Task GetStocks()
-    {
-        try
-        {
-            var store = new DataStore();
-
-            var responseTask = store.GetStockPrices(StockIdentifier.Text);
-
-            Stocks.Items = await responseTask;
-        }
-        catch (Exception ex)
-        {
-            throw;
-        }
-    }
-
-
-
-
-
-
 
     private void BeforeLoadingStockData()
     {
